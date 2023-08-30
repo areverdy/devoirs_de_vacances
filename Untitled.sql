@@ -126,3 +126,26 @@ DELETE FROM eleves
 WHERE prenom = 'fabien';
 
 -- Changez la note et le prénom de l'élève avec la plus mauvaise note par votre prénom à vous et la note de 19.
+UPDATE eleves
+SET prenom = 'Alexandra'
+WHERE id = (
+    SELECT eleves_id
+    FROM notes
+    ORDER BY note ASC
+    LIMIT 1
+);
+
+UPDATE notes
+SET note = 19
+WHERE eleves_id = 3
+--  ça marche parce que j'ai vérifié le numéro d'id de l'élève avec le prénom Alexandra pour pouvoir modifier la note, ici 3.
+
+-- Changez la note du dernier élève de la table `eleves` par un nombre aléatoire entre 9 et 17.
+UPDATE notes
+SET note = FLOOR(RANDOM() * 9) + 9
+WHERE eleves_id = (
+    SELECT id
+    FROM eleves
+    ORDER BY id DESC
+    LIMIT 1
+);
